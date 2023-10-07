@@ -7,7 +7,7 @@ Resources:
     Properties:
       CodeUri: .
       Description: ''
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 3
       Handler: app.handler
       Runtime: nodejs16.x
