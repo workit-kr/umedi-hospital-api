@@ -5,27 +5,6 @@ on:
       - dev
 
 jobs:
-  # deploy_source:
-  #   name: deploy lambda by push
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v3
-  #     - name: config aws credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ${{ secrets.AWS_REGION }}
-  #         function_name: umedi-hospital-api
-  #         memory_size: 256
-  #         timeout: 30
-  #     - name: install node_modules
-  #       run: npm install
-  #     - name: zip lambda function
-  #       run: zip -r9 umedi-hospital-api.zip *
-  #     - name: update code
-  #       run: aws lambda update-function-code --function-name umedi-hospital-api --zip-file fileb://umedi-hospital-api.zip
   umedi-hospital-api:
     runs-on: ubuntu-latest
     steps:

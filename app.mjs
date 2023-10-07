@@ -3,7 +3,7 @@ export const handler = async (event) => {
   console.log(event)
   const response = {
     statusCode: 200,
-    body: JSON.stringify('hospital api'),
+    body: JSON.stringify('hospital api deployed from github action'),
   };
   return response;
 };
