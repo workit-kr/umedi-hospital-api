@@ -10,7 +10,7 @@ Resources:
       MemorySize: 128
       Timeout: 3
       Handler: app.handler
-      Runtime: nodejs18.x
+      Runtime: nodejs16.x
       Architectures:
         - x86_64
       EventInvokeConfig:

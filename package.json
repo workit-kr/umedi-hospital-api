@@ -11,5 +11,13 @@
   "dependencies": {
     "pg": "^8.11.3"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workit-kr/umedi-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/workit-kr/umedi-backend/issues"
+  },
+  "homepage": "https://github.com/workit-kr/umedi-backend#readme"
 }
