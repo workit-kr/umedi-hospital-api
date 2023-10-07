@@ -13,6 +13,7 @@ cli.connect();
 console.log(`Database Connected: ${cli.user}`)
 
 export const handler = async (event) => {
+  console.log(`lambda event: ${event}`)
   const queryStrings = event.queryStringParameters;
   console.log(`query strings: ${queryStrings}`)
   const response = {
