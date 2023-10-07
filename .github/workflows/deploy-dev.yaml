@@ -16,8 +16,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: configure aws credentials
-        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} --region ${{ secrets.AWS_REGION }}
         # uses: aws-actions/configure-aws-credentials@v2
         # with:
         #   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -27,6 +25,9 @@ jobs:
       - name: Install serverless globally
         run: npm install -g serverless
 
+      - name: configure aws credentials
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} --region ${{ secrets.AWS_REGION }}
+      
       - name: install dependencies
         run: npm ci
 
