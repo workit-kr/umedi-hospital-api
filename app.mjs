@@ -13,11 +13,13 @@ cli.connect();
 console.log(`Database Connected: ${cli.user}`)
 
 export const handler = async (event) => {
-  // TODO implement
-  console.log(event)
+  const queryStrings = event.queryStringParameters;
+  console.log(`speciality keyword: ${ queryStrings.speciality }`);
+  console.log(`region keyword: ${ queryStrings.region }`);
+
   const response = {
     statusCode: 200,
-    body: JSON.stringify('hospital api deployed from github action'),
+    body: JSON.stringify(`query: ${queryStrings.speciality}`),
   };
   return response;
 };
