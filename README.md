@@ -1,1 +1,1 @@
-# umedy-backend
+# umedy-hospital-api-lambda
