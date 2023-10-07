@@ -10,7 +10,7 @@ const cli = new Client({
 });
 
 cli.connect();
-console.log(`${cli.user ? cli.user : "None"}`)
+console.log(`Database Connected: ${cli.user}`)
 
 export const handler = async (event) => {
   // TODO implement
