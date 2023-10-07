@@ -16,22 +16,26 @@ jobs:
         with:
           node-version: 16
 
-        # uses: aws-actions/configure-aws-credentials@v2
-        # with:
-        #   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        #   aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Install serverless globally
-        run: npm install -g serverless
-
       - name: configure aws credentials
-        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} --region ${{ secrets.AWS_REGION }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # - name: Install serverless globally
+      #   run: npm install -g serverless
+
+      # - name: configure aws credentials
+      #   run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
       - name: install dependencies
         run: npm ci
 
-      # - run: zip -r9 umedi-hospital-api.zip *
-      # - run: aws lambda update-function-code --function-name=umedi-hospital-api --zip-file=fileb://umedi-hospital-api.zip
-      - name: Deploy lambda function
-        run: sls deploy
+      - name: compress codes
+        run: zip -r9 umedi-hospital-api.zip *
+
+      - name: deploy lambda function
+        run: aws lambda update-function-code --function-name=umedi-hospital-api --zip-file=fileb://umedi-hospital-api.zip
+      # - name: Deploy lambda function
+      #   run: sls deploy
