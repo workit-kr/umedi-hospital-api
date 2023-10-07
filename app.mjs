@@ -14,12 +14,10 @@ console.log(`Database Connected: ${cli.user}`)
 
 export const handler = async (event) => {
   const queryStrings = event.queryStringParameters;
-  console.log(`speciality keyword: ${ queryStrings.speciality }`);
-  console.log(`region keyword: ${ queryStrings.region }`);
-
+  console.log(`query strings: ${queryStrings}`)
   const response = {
     statusCode: 200,
-    body: JSON.stringify(`query: ${queryStrings.speciality}`),
+    body: JSON.stringify(`hospital`),
   };
   return response;
 };
