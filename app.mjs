@@ -13,12 +13,11 @@ cli.connect();
 console.log(`Database Connected: ${cli.user}`)
 
 export const handler = async (event) => {
-  console.log(`lambda event: ${event.queryStringParameters}`)
   const queryStrings = event.queryStringParameters;
-  console.log(`query strings: ${queryStrings}`)
+
   const response = {
     statusCode: 200,
-    body: JSON.stringify(`hospital`),
+    body: JSON.stringify(`speciality: ${queryStrings.speciality}`),
   };
   return response;
 };
