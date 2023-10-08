@@ -18,7 +18,7 @@ export const handler = async (event) => {
 
   let respBody = "";
   if (hospitalId !== null) {
-    details = getHospitalInfo(hospitalId);
+    getHospitalInfo(hospitalId);
     respBody = `hospital id: ${hospitalId}`
   }
 
@@ -30,11 +30,11 @@ export const handler = async (event) => {
 };
 
 function getHospitalInfo(hospitalId) {
-  pool.query("select * from umedi.hospital where id = $1", [hospitalId], (error, result) => {
-    if (error) {
-      throw error
-    }
-    console.log(result.rows)
-    return result.rows
+  const query = `select * from umedi.hospital where id = ${hospitalId}`;
+
+  pool.query(query).then((result) => {
+    console.log(result.rows[0]);
+  }).catch((e) => {
+    console.error(e.stack)
   });
 }
