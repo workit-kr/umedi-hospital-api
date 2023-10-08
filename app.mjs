@@ -11,7 +11,7 @@ const cli = new Pool({
 cli.connect();
 
 export const handler = async (event) => {
-  const { hospitalId } = event.pathParameters;
+  const hospitalId = event.pathParameters.id;
   console.log(`hospital id: ${hospitalId}`);
 
   const queryStrings = event.queryStringParameters;
