@@ -46,7 +46,4 @@ async function getHospitalInfo(hospitalId) {
       body: JSON.stringify({"message": "server error"})
     }
   }
-  finally {
-    pool.end();
-  };
 }
