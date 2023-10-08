@@ -18,12 +18,13 @@ export const handler = async (event) => {
 
   let respBody = "";
   if (hospitalId !== null) {
-    respBody = getHospitalInfo(hospitalId);
+    details = getHospitalInfo(hospitalId);
+    respBody = `hospital id: ${hospitalId}`
   }
 
   const response = {
     statusCode: 200,
-    body: respBody,
+    body: JSON.stringify(respBody),
   };
   return response;
 };
