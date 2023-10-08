@@ -33,6 +33,7 @@ function getHospitalInfo(hospitalId) {
     if (error) {
       throw error
     }
-    return JSON.stringify(result.rows)
+    console.log(result.rows)
+    return result.rows
   });
 }
