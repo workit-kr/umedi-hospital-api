@@ -24,6 +24,17 @@ Resources:
           Properties:
             Path: /hospital
             Method: GET
+        Api3:
+          Type: Api
+          Properties:
+            Path: /hospital/{id}
+            Method: GET
+      Environment:
+        Variables:
+          PG_DB: umedi_dev
+          PG_HOST: umedi-db.c9ta7oqd0sn5.ap-northeast-2.rds.amazonaws.com
+          PG_PASSWORD: Umedi2023!!
+          PG_USER: umedi
       RuntimeManagementConfig:
         UpdateRuntimeOn: Auto
       SnapStart:

@@ -8,34 +8,45 @@ const pool = new Pool({
   password: process.env.PG_PASSWORD,
   port: 5432,
 });
-pool.connect();
+await pool.connect();
 
 export const handler = async (event) => {
   const hospitalId = event.pathParameters.id;
   console.log(`hospital id: ${hospitalId}`);
 
   const queryStrings = event.queryStringParameters;
+  var resp = {}
 
-  let respBody = "";
   if (hospitalId !== null) {
-    getHospitalInfo(hospitalId);
-    respBody = `hospital id: ${hospitalId}`
+    resp = getHospitalInfo(hospitalId)
+  }
+
+  return resp
+}
+
+async function getHospitalInfo(hospitalId) {
+  try {
+    const result = await pool.query('select * from umedi.hospital where id = $1', [hospitalId]);
+    if (result.rowCount == 0) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({"message": "no item"})
+      }
+    };
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result.rows[0])
+    }
+  }
+  catch (error) {
+    console.error('server error');
+    return {
+      statusCode: 500,
+      body: JSON.stringify({"message": "server error"})
+    }
+  }
+  finally {
+    pool.end();
   };
-
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify(respBody)
-  };
-  return response;
-};
-
-function getHospitalInfo(hospitalId) {
-  const query = `select * from umedi.hospital where id = ${hospitalId}`;
-  console.log(`query: ${query}`);
-
-  pool.query(query).then((result) => {
-    console.log(result.rows[0]);
-  }).catch((e) => {
-    console.log(e.stack)
-  });
 }
