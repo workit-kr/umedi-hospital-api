@@ -1,16 +1,14 @@
-import pg from 'pg'
-const { Client } = pg
+import pg from "pg";
 
-const cli = new Client({
+const { Pool } = pg;
+const cli = new Pool({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
   database: process.env.PG_DB,
   password: process.env.PG_PASSWORD,
-  port: 5432
+  port: 5432,
 });
-
 cli.connect();
-console.log(`Database Connected: ${cli.user}`)
 
 export const handler = async (event) => {
   const queryStrings = event.queryStringParameters;
