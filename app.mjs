@@ -14,7 +14,7 @@ export const handler = async (event) => {
   const { hospitalId } = event.pathParameters;
   const queryStrings = event.queryStringParameters;
 
-  const respBody = "";
+  var respBody = "";
 
   if (hospitalId !== null) {
     respBody = getHospitalInfo(hospitalId);
