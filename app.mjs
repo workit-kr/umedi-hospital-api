@@ -11,11 +11,22 @@ const cli = new Pool({
 cli.connect();
 
 export const handler = async (event) => {
+  const { hospitalId } = event.pathParameters;
   const queryStrings = event.queryStringParameters;
+
+  const respBody = "";
+
+  if (hospitalId !== null) {
+    respBody = getHospitalInfo(hospitalId);
+  }
 
   const response = {
     statusCode: 200,
-    body: JSON.stringify(`speciality: ${queryStrings.speciality}`),
+    body: respBody,
   };
   return response;
 };
+
+function getHospitalInfo(hospitalId) {
+  return JSON.stringify(`hospital id: ${hospitalId}`);
+}
