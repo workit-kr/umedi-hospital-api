@@ -20,22 +20,22 @@ export const handler = async (event) => {
   if (hospitalId !== null) {
     getHospitalInfo(hospitalId);
     respBody = `hospital id: ${hospitalId}`
-  }
+  };
 
   const response = {
     statusCode: 200,
-    body: JSON.stringify(respBody),
+    body: JSON.stringify(respBody)
   };
   return response;
 };
 
 function getHospitalInfo(hospitalId) {
   const query = `select * from umedi.hospital where id = ${hospitalId}`;
-  console.log(`query: ${query}`)
+  console.log(`query: ${query}`);
 
   pool.query(query).then((result) => {
     console.log(result.rows[0]);
   }).catch((e) => {
-    console.error(e.stack)
+    console.log(e.stack)
   });
 }
