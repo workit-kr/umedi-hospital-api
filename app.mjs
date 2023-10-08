@@ -12,9 +12,11 @@ cli.connect();
 
 export const handler = async (event) => {
   const { hospitalId } = event.pathParameters;
+  console.log(`hospital id: ${hospitalId}`);
+
   const queryStrings = event.queryStringParameters;
 
-  var respBody = "";
+  let respBody = "";
 
   if (hospitalId !== null) {
     respBody = getHospitalInfo(hospitalId);
@@ -28,5 +30,5 @@ export const handler = async (event) => {
 };
 
 function getHospitalInfo(hospitalId) {
-  return JSON.stringify(`hospital id: ${hospitalId}`);
+  return JSON.stringify(`requested hospital id: ${hospitalId}`);
 }
