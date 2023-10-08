@@ -31,6 +31,7 @@ export const handler = async (event) => {
 
 function getHospitalInfo(hospitalId) {
   const query = `select * from umedi.hospital where id = ${hospitalId}`;
+  console.log(`query: ${query}`)
 
   pool.query(query).then((result) => {
     console.log(result.rows[0]);
