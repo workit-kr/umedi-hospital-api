@@ -72,6 +72,7 @@ async function fetchHospitals(speciality, city) {
   }
   catch (error) {
     console.error('server error');
+    console.error(error)
     return buildResponse(500, {"message": "server error"})
   }
 }
