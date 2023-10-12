@@ -19,24 +19,42 @@ export const handler = async (event) => {
   console.log(`hospital id: ${hospitalId}`);
 
   if (hospitalId !== null) {
-    resp = getHospitalInfo(hospitalId)
-  };
+    resp = getHospitalInfo(hospitalId);
+  }
+  else {
+    const queryStrings = event.queryStringParameters;
+    console.log(queryStrings);
+    
+    let speciality = ""
+    let city = ""
 
-  const queryStrings = event.queryStringParameters;
-
-  if (queryStrings !== null) {
-    const speciality = queryStrings.speciality
-    const city = queryStrings.city
+    if (queryStrings != null) {
+      speciality = queryStrings.speciality;
+      city = queryStrings.city; 
+    }
 
     resp = fetchHospitals(speciality, city);
   }
-
   return resp
 }
 
 async function getHospitalInfo(hospitalId) {
   try {
-    const result = await pool.query('select * from umedi.hospital where id = $1', [hospitalId]);
+    const result = await pool.query(`
+      select
+        h.*,
+        s."name" as speciality1_name,
+        s2."name" as speciality2_name
+      from
+        umedi.hospital h
+      left outer join
+        umedi.speciality s on h.speciality_1 = s.code
+      left outer join
+        umedi.speciality s2 on h.speciality_2 = s2.code
+      where
+        h.id = $1        
+    `, [hospitalId]);
+
     if (result.rowCount == 0) {
       return buildResponse(404, {"message": "no item"})
     };
@@ -50,12 +68,30 @@ async function getHospitalInfo(hospitalId) {
 }
 
 async function fetchHospitals(speciality, city) {
-  var query = 'select * from umedi.hospital where (speciality_1 = $1 or speciality_2 = $1)'
-  var params = [speciality]
+  let query = `
+    select
+      h.*,
+      s."name" as speciality1_name,
+      s2."name" as speciality2_name
+    from
+      umedi.hospital h
+    left outer join
+      umedi.speciality s on h.speciality_1 = s.code
+    left outer join
+      umedi.speciality s2 on h.speciality_2 = s2.code
+    where 1=1
+  `;
+
+  let params = [];
+  
+  if (speciality) {
+    query += ' and  (speciality_1 = $1 or speciality_2 = $1)';
+    params.push(speciality);
+  };
 
   if (city) {
     query += ' and city ilike $2';
-    params.push('%' + city + '%')
+    params.push('%' + city + '%');
   };
 
   console.log(`query: ${query}`)
@@ -80,6 +116,11 @@ async function fetchHospitals(speciality, city) {
 function buildResponse(statusCode, respBody) {
   return {
     statusCode: statusCode,
+    headers: {
+      "Access-Control-Allow-Headers" : 'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token',
+      "Access-Control-Allow-Origin": '*',
+      "Access-Control-Allow-Methods": 'GET'
+    },
     body: JSON.stringify(respBody)
   }
 }
