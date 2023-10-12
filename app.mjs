@@ -27,6 +27,7 @@ export const handler = async (event) => {
     
     let speciality = ""
     let city = ""
+    let keyword = ""
 
     if (queryStrings != null) {
       speciality = queryStrings.speciality;
