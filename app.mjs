@@ -88,17 +88,17 @@ async function fetchHospitals(speciality, city, keyword) {
   
   if (speciality) {
     params.push(speciality);
-    query += ` and  (speciality_1 = $${params.length} or speciality_2 = $${params.length})`;
+    query += ` and (h.speciality_1 = $${params.length} or h.speciality_2 = $${params.length})`;
   };
 
   if (city) {
     params.push('%' + city + '%');
-    query += ` and city ilike $${params.length}`;
+    query += ` and h.city ilike $${params.length}`;
   };
 
   if (keyword) {
     params.push('%' + keyword + '%');
-    query += ` and name ilike $${params.length}`;
+    query += ` and h.name ilike $${params.length}`;
   }
 
   console.log(`query: ${query}`)
