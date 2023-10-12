@@ -30,10 +30,11 @@ export const handler = async (event) => {
 
     if (queryStrings != null) {
       speciality = queryStrings.speciality;
-      city = queryStrings.city; 
+      city = queryStrings.city;
+      keyword = queryStrings.keyword;
     }
 
-    resp = fetchHospitals(speciality, city);
+    resp = fetchHospitals(speciality, city, keyword);
   }
   return resp
 }
@@ -67,7 +68,7 @@ async function getHospitalInfo(hospitalId) {
   }
 }
 
-async function fetchHospitals(speciality, city) {
+async function fetchHospitals(speciality, city, keyword) {
   let query = `
     select
       h.*,
@@ -85,14 +86,19 @@ async function fetchHospitals(speciality, city) {
   let params = [];
   
   if (speciality) {
-    query += ' and  (speciality_1 = $1 or speciality_2 = $1)';
     params.push(speciality);
+    query += ` and  (speciality_1 = $${params.length()} or speciality_2 = $${params.length()})`;
   };
 
   if (city) {
-    query += ' and city ilike $2';
     params.push('%' + city + '%');
+    query += ` and city ilike $${params.length()}`;
   };
+
+  if (keyword) {
+    params.push('%' + keyword + '%');
+    query += ` and name ilike $${params.length()}`;
+  }
 
   console.log(`query: ${query}`)
   console.log(`query parameters: ${params}`)
